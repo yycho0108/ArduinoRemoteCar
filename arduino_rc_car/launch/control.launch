@@ -1,0 +1,4 @@
+<launch>
+	<node name="transmitter" pkg="rosserial_python" type="serial_node.py" args="/dev/ttyACM1"/>
+	<node name="controller" pkg="arduino_rc_car" type="controller" />
+</launch>
