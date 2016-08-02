@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<h1 id="arduino-remote-car">Arduino Remote Car</h1>
+<p>This repository is the code base for the Arduino Car controlled remotely through ROS.</p>
+<p>To run, load rx and tx to the arduinos with the respective hardware configurations.</p>
+<p>Then install the ros package under arduino_rc_car and launch the controller.</p>
+<p><img src="images/carasm.JPG" alt="Car" /></p>
+<h2 id="parts-needed">Parts Needed</h2>
+<ul>
+<li>2x <a href="https://www.sparkfun.com/products/11021">Arduino Uno</a></li>
+<li>Lots of Wires (preferably with different colors, at least red and black)</li>
+<li><a href="https://www.sparkfun.com/products/10532">WRL-10532</a>/<a href="https://www.sparkfun.com/products/10534">WRL-10534</a> Radio Receiver/Transmitter Pair</li>
+<li>1x L293D Motor H-Bridge IC</li>
+<li>1x LM78M05C Voltage Regulator</li>
+<li>1x 9V Battery</li>
+<li>2x DC Motors (I used <a href="http://www.vigorprecision.com.hk/ProductList.Asp?SortID=1">This</a> just because they were available. The chassis is adapted to this model.)</li>
+<li>1x small caster wheel (see CAD for dimensions)</li>
+<li>2x bigger wheels (see CAD for dimensions)</li>
+<li>1x half-size breadboard</li>
+<li>2x antenna (I just used solid wires)</li>
+<li>Some zip ties if you want to provide cheap securing to your assembly</li>
+</ul>
+<h2 id="building-the-chassis">Building the Chassis</h2>
+<p>Get the CAD from <a href="https://drive.google.com/open?id=0B75j6bliWwyTUGZSWWZrYkl3Mnc">here</a>.</p>
+<p>The bulk of the chassis can be 3d printed.</p>
+<p>In my case, I couldn't find a good caster wheel, so I 3d printed the wheel and mounted it with sheet metal.</p>
+<p>As for the main wheel, I recommend buying them. The dimensions are specified in the CAD file.</p>
+<h2 id="wiring-the-components">Wiring the components</h2>
+<h3 id="receiver">Receiver</h3>
+<p><img src="images/wiring_rx.png" alt="RX" /></p>
+<p>The receiver is connected to the arduino.</p>
+<h3 id="transmittor">Transmittor</h3>
+<p><img src="wiring_tx.png" alt="TX" /></p>
+<p>The transmitter should be connected to your computer.</p>
+<h2 id="software">Software</h2>
+<ol>
+<li><p>Build the ros package to remotely control the arduino.<br />
+<code>bash    export CATKIN_WORKSPACE=${HOME}/catkin_ws #REPLACE WITH YOUR OWN    git clone git@github.com:yycho0108/ArduinoRemoteCar.git    cp ArduinoRemoteCar/arduino_rc_car ${CATKIN_WORKSPACE}/src    cd ${CATKIN_WORKSPACE}    catkin_make --pkg arduino_rc_car</code></p></li>
+<li><p>Install the arduino library <a href="https://www.pjrc.com/teensy/td_libs_VirtualWire.html">VirtualWire</a> to facilitate RF communication.</p></li>
+</ol>
+<p>Here are <img src="https://www.arduino.cc/en/Guide/Libraries" alt="Instructions" /> on how to install an Arduino Library.</p>
+<p>Alternatively, simply run the following script:</p>
+<p><code>bash    export ARDUINO_SKETCH_DIR=${HOME}/sketchbook    wget http://www.airspayce.com/mikem/arduino/VirtualWire/VirtualWire-1.27.zip    unzip VirtualWire-1.27.zip    mv VirtualWire ${ARDUINO_SKETCH_DIR}/libraries/VirtualWire</code></p>
+<p>If this fails, check your arduino sketchbook directory.</p>
+<ol>
+<li>Install rosserial to communicate from your computer to the trasmitter.</li>
+</ol>
+<p><code>bash    export ARDUINO_SKETCH_DIR=${HOME}/sketchbook    sudo apt-get install ros-indigo-rosserial-arduino    sudo apt-get install ros-indigo-rosserial     cd ${ARDUINO_SKETCH_DIR}/libraries    rm -rf ros_lib    rosrun rosserial_arduino make_libraries.py</code></p>
+<h2 id="running-the-code">Running the code</h2>
+<ol>
+<li>Upload the code to receiver/transmitter arduinos.</li>
+<li>Power up the car(connect the battery).</li>
+<li>Connect the transmitter arduino to your computer via serial port.</li>
+<li>Check the ports to which the transmitter is connected,<br />
+and Edit the &quot;args&quot; parameter under the &quot;transmitter&quot; node in the launch file to match the port.</li>
+</ol>
+<p><code>bash    roscd arduino_rc_car/launch    vim control.launch</code></p>
+<ol>
+<li>Launch the ros control node.</li>
+</ol>
+<p><code>bash    roslaunch arduino_rc_car control.launch</code></p>
+<ol>
+<li>Press the arrows to control the car remotely.</li>
+</ol>
+</body>
+</html>
