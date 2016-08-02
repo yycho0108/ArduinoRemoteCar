@@ -13,8 +13,8 @@ Then install the ros package under arduino_rc_car and launch the controller.
 - 2x [Arduino Uno](https://www.sparkfun.com/products/11021)
 - Lots of Wires (preferably with different colors, at least red and black)
 - [WRL-10532](https://www.sparkfun.com/products/10532)/[WRL-10534](https://www.sparkfun.com/products/10534) Radio Receiver/Transmitter Pair
-- 1x L293D Motor H-Bridge IC
-- 1x LM78M05C Voltage Regulator
+- 1x Motor H-Bridge IC (I used L293D)
+- 1x 5V Voltage Regulator (I used LM78M05C)
 - 1x 9V Battery
 - 2x DC Motors (I used [This](http://www.vigorprecision.com.hk/ProductList.Asp?SortID=1) just because they were available. The chassis is adapted to this model.)
 - 1x small caster wheel (see CAD for dimensions)
@@ -43,7 +43,7 @@ The receiver is connected to the arduino.
 
 ### Transmittor
 
-![TX](wiring_tx.png)
+![TX](images/wiring_tx.png)
 
 The transmitter should be connected to your computer.
 
@@ -60,7 +60,7 @@ The transmitter should be connected to your computer.
 
 2. Install the arduino library [VirtualWire](https://www.pjrc.com/teensy/td_libs_VirtualWire.html) to facilitate RF communication.
 
-   Here are ![Instructions](https://www.arduino.cc/en/Guide/Libraries) on how to install an Arduino Library.
+   Here are [Instructions](https://www.arduino.cc/en/Guide/Libraries) on how to install an Arduino Library.
 
    Alternatively, simply run the following script: 
 
