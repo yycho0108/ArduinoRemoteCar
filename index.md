@@ -6,6 +6,8 @@ layout: default
 
 # Arduino Remote Car
 
+This Project is still under development.
+
 This repository is the code base for the Arduino Car controlled remotely through ROS.
 
 To run, load rx and tx to the arduinos with the respective hardware configurations.
