@@ -1,10 +1,13 @@
 # Arduino Remote Car
 
-This repository is the code base for the Arduino Car controlled remotely through ROS.
+## NOTES 
+This project is still under development.
 
-To run, load rx and tx to the arduinos with the respective hardware configurations.
+Currently, the chassis doesn't provide any stability beyond simple mobility.
 
-Then install the ros package under arduino_rc_car and launch the controller.
+Furthermore, only 1-way communication from the computer to the car is possible.
+
+The repository itself is the code base for the Arduino Car controlled remotely through ROS.
 
 ![Car](images/carasm.JPG)
 

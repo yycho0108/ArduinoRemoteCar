@@ -1,4 +1,5 @@
-# Created by https://www.gitignore.io/api/vim,linux,ros,cmake,c++,c,python
+
+# Created by https://www.gitignore.io/api/vim,linux,ros,cmake,c++,c,python,jekyll,git
 
 ### Vim ###
 # swap
@@ -251,5 +252,15 @@ ENV/
 # Rope project settings
 .ropeproject
 
-# BACKUP FILE
+
+### Jekyll ###
+_site/
+.sass-cache/
+.jekyll-metadata
+
+
+### Git ###
+*.orig
+
+### BACKUP
 bk/
