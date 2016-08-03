@@ -57,7 +57,25 @@ The transmitter should be connected to your computer.
 
 ## Software
 
-1. Build the ros package to remotely control the arduino.
+1. Install rosserial.
+
+   Via Package Manager:
+
+   ```bash
+   sudo apt-get install ros-${ROS_DISTRO}-rosserial ros-${ROS_DISTRO}-rosserial-python ros-${ROS_DISTRO}-rosserial-arduino
+   ```
+
+   Alternatively, clone the github repository and run catkin_make.
+
+   ```bash
+   cd ~/catkin_ws/src
+   git clone git@github.com:ros-drivers/rosserial.git   
+   cd ..
+   catkin_make
+   ``` 
+
+2. Build the ros package to remotely control the arduino from your computer.
+
    ```bash
    export CATKIN_WORKSPACE=${HOME}/catkin_ws #REPLACE WITH YOUR OWN
    git clone git@github.com:yycho0108/ArduinoRemoteCar.git
@@ -66,30 +84,30 @@ The transmitter should be connected to your computer.
    catkin_make --pkg arduino_rc_car
    ```
 
-2. Install the arduino library [VirtualWire](https://www.pjrc.com/teensy/td_libs_VirtualWire.html) to facilitate RF communication.
+3. Build rosserial_arduino.
+
+   ```bash
+   export ARDUINO_LIB_DIR=${HOME}/sketchbook/libraries
+   cd ${ARDUINO_LIB_DIR}
+   rm -rf ros_lib
+   rosrun rosserial_arduino make_libraries.py 
+   ```
+
+   If this fails, check your arduino library directory.
+  
+   It may simply be ${HOME}/Arduino/libraries.
+
+4. Install the arduino library [VirtualWire](https://www.pjrc.com/teensy/td_libs_VirtualWire.html) to facilitate RF communication.
 
    Here are [Instructions](https://www.arduino.cc/en/Guide/Libraries) on how to install an Arduino Library.
 
    Alternatively, simply run the following script: 
 
    ```bash
-   export ARDUINO_SKETCH_DIR=${HOME}/sketchbook
+   export ARDUINO_LIB_DIR=${HOME}/sketchbook/libraries
    wget http://www.airspayce.com/mikem/arduino/VirtualWire/VirtualWire-1.27.zip
    unzip VirtualWire-1.27.zip
-   mv VirtualWire ${ARDUINO_SKETCH_DIR}/libraries/VirtualWire
-   ```
-
-   If this fails, check your arduino sketchbook directory.
-
-3. Install rosserial to communicate from your computer to the trasmitter. 
-
-   ```bash
-   export ARDUINO_SKETCH_DIR=${HOME}/sketchbook
-   sudo apt-get install ros-indigo-rosserial-arduino
-   sudo apt-get install ros-indigo-rosserial 
-   cd ${ARDUINO_SKETCH_DIR}/libraries
-   rm -rf ros_lib
-   rosrun rosserial_arduino make_libraries.py 
+   mv VirtualWire ${ARDUINO_LIB_DIR}/VirtualWire
    ```
 
 ## Running the code
