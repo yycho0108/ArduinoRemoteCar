@@ -108,6 +108,14 @@ The transmitter should be connected to your computer.
 ## Running the code
 
 1. Upload the code to receiver/transmitter arduinos.
+
+   If you encounter an error that you cannot open the serial port, run:
+
+   ```bash
+   sudo usermod -a -G dialout <username>
+   sudo chmod a+rw /dev/ttyACM0
+   ```
+
 2. Power up the car(connect the battery).
 3. Connect the transmitter arduino to your computer via serial port.
 4. Check the ports to which the transmitter is connected,
@@ -121,6 +129,7 @@ The transmitter should be connected to your computer.
 5. Launch the ros control node.
 
    ```bash
+   sudo -s
    roslaunch arduino_rc_car control.launch
    ```
 
