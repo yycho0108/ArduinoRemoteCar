@@ -118,19 +118,17 @@ The transmitter should be connected to your computer.
 
 2. Power up the car(connect the battery).
 3. Connect the transmitter arduino to your computer via serial port.
-4. Check the ports to which the transmitter is connected,
-   and Edit the "args" parameter under the "transmitter" node in the launch file to match the port. 
+4. Check the ports to which the transmitter is connected.
 
    ```bash
-   roscd arduino_rc_car/launch
-   vim control.launch
+   ls /dev/ttyACM*
    ```
 
 5. Launch the ros control node.
 
    ```bash
    sudo -s
-   roslaunch arduino_rc_car control.launch
+   roslaunch arduino_rc_car control.launch port:=/dev/ttyACM0
    ```
 
 6. Press the arrows to control the car remotely. 
