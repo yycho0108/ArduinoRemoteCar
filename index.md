@@ -6,13 +6,14 @@ layout: default
 
 # Arduino Remote Car
 
-This Project is still under development.
+## NOTES 
+This project is still under development.
 
-This repository is the code base for the Arduino Car controlled remotely through ROS.
+Currently, the chassis does not provide any stability beyond simple mobility.
 
-To run, load rx and tx to the arduinos with the respective hardware configurations.
+Furthermore, only 1-way communication from the computer to the car is possible.
 
-Then install the ros package under arduino_rc_car and launch the controller.
+The repository itself is the code base for the Arduino Car controlled remotely through ROS.
 
 ![Car](images/carasm.JPG)
 
@@ -37,7 +38,7 @@ Get the CAD from [here](https://drive.google.com/open?id=0B75j6bliWwyTUGZSWWZrYk
 
 The bulk of the chassis can be 3d printed.
 
-In my case, I couldn't find a good caster wheel, so I 3d printed the wheel and mounted it with sheet metal.
+In my case, I could not find a good caster wheel, so I 3d printed the wheel and mounted it with sheet metal.
 
 As for the main wheel, I recommend buying them. The dimensions are specified in the CAD file.
 
@@ -113,20 +114,27 @@ The transmitter should be connected to your computer.
 ## Running the code
 
 1. Upload the code to receiver/transmitter arduinos.
-2. Power up the car(connect the battery).
-3. Connect the transmitter arduino to your computer via serial port.
-4. Check the ports to which the transmitter is connected,
-   and Edit the "args" parameter under the "transmitter" node in the launch file to match the port. 
+
+   If you encounter an error that you cannot open the serial port, run:
 
    ```bash
-   roscd arduino_rc_car/launch
-   vim control.launch
+   sudo usermod -a -G dialout <username>
+   sudo chmod a+rw /dev/ttyACM0
+   ```
+
+2. Power up the car(connect the battery).
+3. Connect the transmitter arduino to your computer via serial port.
+4. Check the ports to which the transmitter is connected.
+
+   ```bash
+   ls /dev/ttyACM*
    ```
 
 5. Launch the ros control node.
 
    ```bash
-   roslaunch arduino_rc_car control.launch
+   sudo -s
+   roslaunch arduino_rc_car control.launch port:=/dev/ttyACM0
    ```
 
 6. Press the arrows to control the car remotely. 
