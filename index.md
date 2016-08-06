@@ -13,11 +13,11 @@ layout: default
 
 This Project is still under development.
 
-This repository is the code base for the Arduino Car controlled remotely through ROS.
+Currently, the chassis does not provide any stability beyond simple mobility.
 
-To run, load rx and tx to the arduinos with the respective hardware configurations.
+Furthermore, only 1-way communication from the computer to the car is possible.
 
-Then install the ros package under arduino_rc_car and launch the controller.
+The repository itself is the code base for the Arduino Car controlled remotely through ROS.
 
 ![Car](images/carasm.JPG)
 
@@ -42,7 +42,7 @@ Get the CAD from [here](https://drive.google.com/open?id=0B75j6bliWwyTUGZSWWZrYk
 
 The bulk of the chassis can be 3d printed.
 
-In my case, I couldn't find a good caster wheel, so I 3d printed the wheel and mounted it with sheet metal.
+In my case, I could not find a good caster wheel, so I 3d printed the wheel and mounted it with sheet metal.
 
 As for the main wheel, I recommend buying them. The dimensions are specified in the CAD file.
 
@@ -62,7 +62,25 @@ The transmitter should be connected to your computer.
 
 ## Software
 
-1. Build the ros package to remotely control the arduino.
+1. Install rosserial.
+
+   Via Package Manager:
+
+   ```bash
+   sudo apt-get install ros-${ROS_DISTRO}-rosserial ros-${ROS_DISTRO}-rosserial-python ros-${ROS_DISTRO}-rosserial-arduino
+   ```
+
+   Alternatively, clone the github repository and run catkin_make.
+
+   ```bash
+   cd ~/catkin_ws/src
+   git clone git@github.com:ros-drivers/rosserial.git   
+   cd ..
+   catkin_make
+   ``` 
+
+2. Build the ros package to remotely control the arduino from your computer.
+
    ```bash
    export CATKIN_WORKSPACE=${HOME}/catkin_ws #REPLACE WITH YOUR OWN
    git clone git@github.com:yycho0108/ArduinoRemoteCar.git
@@ -71,35 +89,43 @@ The transmitter should be connected to your computer.
    catkin_make --pkg arduino_rc_car
    ```
 
-2. Install the arduino library [VirtualWire](https://www.pjrc.com/teensy/td_libs_VirtualWire.html) to facilitate RF communication.
+3. Build rosserial_arduino.
+
+   ```bash
+   export ARDUINO_LIB_DIR=${HOME}/sketchbook/libraries
+   cd ${ARDUINO_LIB_DIR}
+   rm -rf ros_lib
+   rosrun rosserial_arduino make_libraries.py 
+   ```
+
+   If this fails, check your arduino library directory.
+  
+   It may simply be ${HOME}/Arduino/libraries.
+
+4. Install the arduino library [VirtualWire](https://www.pjrc.com/teensy/td_libs_VirtualWire.html) to facilitate RF communication.
 
    Here are [Instructions](https://www.arduino.cc/en/Guide/Libraries) on how to install an Arduino Library.
 
    Alternatively, simply run the following script: 
 
    ```bash
-   export ARDUINO_SKETCH_DIR=${HOME}/sketchbook
+   export ARDUINO_LIB_DIR=${HOME}/sketchbook/libraries
    wget http://www.airspayce.com/mikem/arduino/VirtualWire/VirtualWire-1.27.zip
    unzip VirtualWire-1.27.zip
-   mv VirtualWire ${ARDUINO_SKETCH_DIR}/libraries/VirtualWire
-   ```
-
-   If this fails, check your arduino sketchbook directory.
-
-3. Install rosserial to communicate from your computer to the trasmitter. 
-
-   ```bash
-   export ARDUINO_SKETCH_DIR=${HOME}/sketchbook
-   sudo apt-get install ros-indigo-rosserial-arduino
-   sudo apt-get install ros-indigo-rosserial 
-   cd ${ARDUINO_SKETCH_DIR}/libraries
-   rm -rf ros_lib
-   rosrun rosserial_arduino make_libraries.py 
+   mv VirtualWire ${ARDUINO_LIB_DIR}/VirtualWire
    ```
 
 ## Running the code
 
 1. Upload the code to receiver/transmitter arduinos.
+
+   If you encounter an error that you cannot open the serial port, run:
+
+   ```bash
+   sudo usermod -a -G dialout <username>
+   sudo chmod a+rw /dev/ttyACM0
+   ```
+
 2. Power up the car(connect the battery).
 3. Connect the transmitter arduino to your computer via serial port.
 4. Check the ports to which the transmitter is connected.
