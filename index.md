@@ -6,6 +6,11 @@ layout: default
 
 # Arduino Remote Car
 
+<video controls width="100%" height="100%">
+	Your Browser Does Not Support The Video Tag.
+	<source src="videos/demo.mp4" type="video/mp4">
+</video>
+
 This Project is still under development.
 
 This repository is the code base for the Arduino Car controlled remotely through ROS.
@@ -97,18 +102,32 @@ The transmitter should be connected to your computer.
 1. Upload the code to receiver/transmitter arduinos.
 2. Power up the car(connect the battery).
 3. Connect the transmitter arduino to your computer via serial port.
-4. Check the ports to which the transmitter is connected,
-   and Edit the "args" parameter under the "transmitter" node in the launch file to match the port. 
+4. Check the ports to which the transmitter is connected.
 
    ```bash
-   roscd arduino_rc_car/launch
-   vim control.launch
+   ls /dev/ttyACM*
    ```
 
-5. Launch the ros control node.
+5. (Optional) To configure permission to access input devices without sudo permission,
 
    ```bash
-   roslaunch arduino_rc_car control.launch
+   echo 'SUBSYSTEM=="input", MODE="660", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/99-input.rules
+   sudo usermod -a -G plugdev $(whoami)
+   ```
+	
+5. Launch the ros control node.
+
+   If you haven't configured access permission to input devices:
+
+   ```bash
+   sudo -s
+   ```
+   Otherwise, you don't need to become root.
+  
+   To launch the control node: 
+
+   ```bash
+   roslaunch arduino_rc_car control.launch port:=/dev/ttyACM0
    ```
 
 6. Press the arrows to control the car remotely. 
