@@ -6,7 +6,7 @@ layout: default
 
 # Arduino Remote Car
 
-<video controls width="100%" height="100%">
+<video controls width="480px" height="270px">
 	Your Browser Does Not Support The Video Tag.
 	<source src="videos/demo.mp4" type="video/mp4">
 </video>
